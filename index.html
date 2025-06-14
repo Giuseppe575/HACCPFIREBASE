@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schede Autocontrollo HACCP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+            background-color: #fdf6f0;
+            color: #333;
+            min-height: 100vh;
+            padding-top: 20px;
+            padding-bottom: 80px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background-color: #fff4e6;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .app-view {
+            width: 100%;
+            padding-bottom: 20px;
+        }
+
+        .header,
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: none;
+            background: linear-gradient(135deg, #5e4ae3, #836fff);
+            color: #fff;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-text .greeting {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .user-text .app-title {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+        }
+
+        .sync-section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .sync-button {
+            background-color: #00b0ff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 10px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .sync-button:hover {
+            background-color: #0099e6;
+        }
+
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .tile {
+            background-color: #fff0dc;
+            border: none;
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 130px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .tile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .tile i {
+            font-size: 2.5em;
+            color: #00b0ff;
+            margin-bottom: 10px;
+        }
+
+        .tile-text {
+            font-size: 1em;
+            color: #333;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            width: 20px;
+            height: 20px;
+            background-color: #1a2e4b;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .module-content {
+            padding: 20px;
+        }
+
+        .module-content p {
+            margin-top: 0;
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-label {
+            flex-grow: 1;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .item-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .item-input input[type="number"],
+        .item-input input[type="text"],
+        .item-input input[type="date"],
+        .item-input input[type="time"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid #888;
+        }
+
+        .status-indicator.ok {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .status-indicator.alert {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .save-button {
+            display: block;
+            width: 100%;
+            background-color: #00b0ff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            text-align: center;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .save-button:hover {
+            background-color: #0099e6;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: none;
+            background: linear-gradient(135deg, #5e4ae3, #836fff);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 420px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0 auto;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            box-sizing: border-box;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #5e4ae3;
+            font-size: 0.7em;
+            transition: color 0.2s ease-in-out;
+            background: #ffffff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 1.8em;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #00b0ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Dashboard View -->
+        <section id="dashboard-view" class="app-view" style="display: block;">
+            <header class="header">
+  <div class="user-info">
+    <img
+      src="https://raw.githubusercontent.com/Giuseppe575/Immagine-/main/180396DC-C6CD-4BF0-8CBA-CC40BAE5BED8.jpeg"
+      alt="User Photo"
+      class="user-photo"
+      width="48"
+      height="48"
+    >
+    <div class="user-text">
+      <div class="greeting" style="color: #fff;">Benvenuto</div>
+      <div class="app-title" style="color: #fff;">Schede di Autocontrollo HACCP</div>
+    </div>
+  </div>
+  <div class="logo-container">
+    <img
+      src="https://raw.githubusercontent.com/Giuseppe575/Immagine-/main/6B7CA465-75C8-400F-A39D-0CC31CD5DF90.png"
+      alt="Gruppo ATIS Logo"
+      class="logo"
+      width="120"
+      onerror="this.onerror=null;this.src='assets/images/placeholder-logo.png'"
+    >
+  </div>
+</header>
+
+
+            <section class="tiles-grid">
+                <div class="tile" data-section="tracciamento">
+                    <i class="fas fa-map-marker-alt" style="color: #7e57c2;"></i>
+                    <div class="status-badge">1</div>
+                    <div class="tile-text">Rintracciabilità</div>
+                </div>
+                <div class="tile" data-section="temperatura">
+                    <i class="fas fa-temperature-low" style="color: #00acc1;"></i>
+                    <div class="status-badge">2</div>
+                    <div class="tile-text">Temperatura</div>
+                </div>
+                <div class="tile" data-section="pulizie-giornaliere">
+                    <i class="fas fa-clipboard-check" style="color: #f57c00;"></i>
+                    <div class="status-badge">3</div>
+                    <div class="tile-text">Attività di pulizia giornaliera</div>
+                </div>
+                <div class="tile" data-section="pulizie-settimanali">
+                    <i class="fas fa-broom" style="color: #5c6bc0;"></i>
+                    <div class="status-badge">4</div>
+                    <div class="tile-text">Attività di pulizia settimanale</div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Modulo Temperatura -->
+        <section id="temperature-module-view" class="app-view" style="display: none;">
+            <header class="module-header">
+                <button id="back-to-dashboard" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Indietro
+                </button>
+                <h2>Registra Temperature</h2>
+            </header>
+            <div class="module-content">
+                <p>Inserisci le temperature rilevate per ciascuna attrezzatura:</p>
+                <div id="temperatureFormContainer"></div>
+                <button id="saveButton" class="save-button">Salva Registrazioni</button>
+            </div>
+        </section>
+
+        <!-- Modulo Tracciamento -->
+        <section id="tracciamento-module-view" class="app-view" style="display: none;">
+            <header class="module-header">
+                <button id="back-to-dashboard-tracciamento" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Indietro
+                </button>
+                <h2 style="margin-left: 10px;">Nuova scheda ingredienti</h2>
+            </header>
+            <div class="module-content">
+                <form id="tracciamento-form">
+                    <div class="data-item">
+                        <div class="item-label">Prodotto</div>
+                        <div class="item-input"><input type="text" name="prodotto" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Data materia prima</div>
+                        <div class="item-input"><input type="date" name="dataMateria" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Fattura/fornitore</div>
+                        <div class="item-input"><input type="text" name="fattura" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Lotto prodotto finito</div>
+                        <div class="item-input"><input type="text" name="lotto" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Prodotto conforme?</div>
+                        <div class="item-input">
+                            <label><input type="radio" name="conformita" value="conforme" required>
+                                Conforme</label>&nbsp;&nbsp;
+                            <label><input type="radio" name="conformita" value="non conforme" required> Non
+                                conforme</label>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Firma per convalida</div>
+                        <div class="item-input"><input name="firma" type="text" required></div>
+                    </div>
+                    <button type="submit" class="save-button">Salva</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Modulo Pulizie Giornaliere -->
+        <section id="pulizie-giornaliere-module-view" class="app-view" style="display: none;">
+            <header class="module-header">
+                <button id="back-to-dashboard-pulizie-giornaliere" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Indietro
+                </button>
+                <h2 style="margin-left: 10px;">Pulizia e sanificazione giornaliera</h2>
+            </header>
+            <div class="module-content">
+                <form id="pulizie-giornaliere-form">
+                    <div class="data-item">
+                        <div class="item-label">Mese</div>
+                        <div class="item-input"><input type="text" name="mese" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Anno</div>
+                        <div class="item-input"><input type="text" name="anno" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Data</div>
+                        <div class="item-input"><input type="date" name="data" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Attrezzature</div>
+                        <div class="item-input"><input type="text" name="attrezzature" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Piani Lavoro</div>
+                        <div class="item-input"><input type="text" name="pianiLavoro" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Lavelli</div>
+                        <div class="item-input"><input type="text" name="lavelli" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Cestini</div>
+                        <div class="item-input"><input type="text" name="cestini" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Pavimenti</div>
+                        <div class="item-input"><input type="text" name="pavimenti" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Sanitari</div>
+                        <div class="item-input"><input type="text" name="sanitari" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Firma</div>
+                        <div class="item-input"><input type="text" name="firma" required></div>
+                    </div>
+                    <button type="submit" class="save-button">Salva</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Modulo Pulizie Settimanali -->
+        <section id="pulizie-settimanali-module-view" class="app-view" style="display: none;">
+            <header class="module-header">
+                <button id="back-to-dashboard-pulizie-settimanali" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Indietro
+                </button>
+                <h2 style="margin-left: 10px;">Pulizia e sanificazione settimanale</h2>
+            </header>
+            <div class="module-content">
+                <form id="pulizie-settimanali-form">
+                    <div class="data-item">
+                        <div class="item-label">Mese</div>
+                        <div class="item-input"><input type="text" name="mese" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Anno</div>
+                        <div class="item-input"><input type="text" name="anno" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Data</div>
+                        <div class="item-input"><input type="date" name="data" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Ora</div>
+                        <div class="item-input"><input type="time" name="ora" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Cella frigo</div>
+                        <div class="item-input"><input type="text" name="cellaFrigo" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Rubinetterie / sanitari</div>
+                        <div class="item-input"><input type="text" name="rubinetterieSanitari" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Interruttori</div>
+                        <div class="item-input"><input type="text" name="interruttori" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Mensole</div>
+                        <div class="item-input"><input type="text" name="mensole" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Maniglie</div>
+                        <div class="item-input"><input type="text" name="maniglie" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Zanzariere</div>
+                        <div class="item-input"><input type="text" name="zanzariere" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Firma</div>
+                        <div class="item-input"><input type="text" name="firma" required></div>
+                    </div>
+                    <button type="submit" class="save-button">Salva</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Modulo Impostazioni (Setup Frigoriferi) -->
+        <section id="settings-module-view" class="app-view" style="display: none;">
+            <header class="module-header">
+                <button id="back-to-dashboard-settings" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Indietro
+                </button>
+                <h2 style="margin-left: 10px;">Setup Frigoriferi</h2>
+            </header>
+            <div class="module-content">
+                <form id="setup-frigoriferi-form">
+                    <div class="data-item">
+                        <div class="item-label">Nome Frigorifero</div>
+                        <div class="item-input"><input type="text" name="nomeFrigo" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Tipo</div>
+                        <div class="item-input">
+                            <select name="tipoFrigo" required>
+                                <option value="Positivo">Positivo</option>
+                                <option value="Negativo">Negativo</option>
+                                <option value="Freezer">Freezer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Limite Min (°C)</div>
+                        <div class="item-input"><input type="number" name="limiteMin" required></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="item-label">Limite Max (°C)</div>
+                        <div class="item-input"><input type="number" name="limiteMax" required></div>
+                    </div>
+                    <button type="submit" class="save-button">Aggiungi Frigo</button>
+                </form>
+                <div id="elenco-frigoriferi" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+
+        <footer class="bottom-nav">
+            <a href="#" class="nav-item active" data-nav="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" data-nav="settings">
+                <i class="fas fa-cog"></i>
+                <span>Impostazioni</span>
+            </a>
+        </footer>
+   
+    <!-- ===============================
+         BLOCCO VERSIONE 2.3 - COPYRIGHT E TUTELA
+         Data: 11/05/2025
+    ================================ -->
+    <footer style="text-align:center; padding: 15px; font-size: 0.8em; color: #666; background-color: #fff4e6;">
+        <p>&copy; 2025 Dott. Giuseppe Strifezza - Tutti i diritti riservati.</p>
+        <p>Powered by Giuseppe Strifezza | Licenza N. GS-2025-001</p>
+        <p>Contatti: <a href="mailto:atis.giuseppe@gmail.com">atis.giuseppe@gmail.com</a></p>
+    </footer>
+
+        <!-- CORRETTA VERSIONE COMPAT PER HTML PURI -->
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-analytics-compat.js"></script>
+ <script>
+    // === CONFIGURAZIONE FIREBASE ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDZiXsdj12aM34i4HyVBFX2MrxaCB0qVQ",
+      authDomain: "haccpapp-5c0f3.firebaseapp.com",
+      projectId: "haccpapp-5c0f3",
+      storageBucket: "haccpapp-5c0f3.appspot.com",
+      messagingSenderId: "923817749354",
+      appId: "1:923817749354:web:8676ad31505787dfee1313",
+      measurementId: "G-SLES3SM452"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+    if (typeof firebase.analytics === "function") { firebase.analytics(); }
+
+    // === SCRIPT DI LOGICA PRINCIPALE ===
+
+    // 1. Variabili globali
+    const dashboardView            = document.getElementById('dashboard-view');
+    const temperatureView          = document.getElementById('temperature-module-view');
+    const tracciamentoView         = document.getElementById('tracciamento-module-view');
+    const pulizieGiornaliereView   = document.getElementById('pulizie-giornaliere-module-view');
+    const pulizieSettimanaliView   = document.getElementById('pulizie-settimanali-module-view');
+    const settingsView             = document.getElementById('settings-module-view');
+    let frigoriferi                = []; // sarà valorizzato da creaFormTemperature
+
+    // 2. Funzioni utility
+    function mostraVista(vista) {
+      document.querySelectorAll('.app-view').forEach(v => v.style.display = 'none');
+      vista.style.display = 'block';
+    }
+
+    function caricaElencoFrigoriferiImpostazioni() {
+      db.collection("frigoriferi").get().then(querySnapshot => {
+        const lista = [];
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          data.idFrigo = doc.id;
+          lista.push(data);
+        });
+        const elenco = document.getElementById('elenco-frigoriferi');
+        if (!lista.length) {
+          elenco.innerHTML = "<em>Nessun frigorifero registrato.</em>";
+          return;
+        }
+        elenco.innerHTML = `
+          <table style="width:100%; font-size:0.95em; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding: 5px;">Nome</th>
+                <th style="text-align:left; padding: 5px;">Tipo</th>
+                <th style="text-align:left; padding: 5px;">Min (°C)</th>
+                <th style="text-align:left; padding: 5px;">Max (°C)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${lista.map(f => `
+                <tr>
+                  <td style="padding: 5px;">${f.nomeFrigo}</td>
+                  <td style="padding: 5px;">${f.tipoFrigo}</td>
+                  <td style="padding: 5px;">${f.limiteMin}</td>
+                  <td style="padding: 5px;">${f.limiteMax}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>`;
+      }).catch(err => {
+        console.error("Errore caricamento frigoriferi:", err);
+        document.getElementById('elenco-frigoriferi').innerHTML = "<em>Errore caricamento dati.</em>";
+      });
+    }
+
+    function caricaElencoFrigoriferiPerRegistrazione() {
+      db.collection("frigoriferi").get().then(querySnapshot => {
+        const lista = [];
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          data.idFrigo = doc.id;
+          lista.push(data);
+        });
+        creaFormTemperature(lista);
+      }).catch(err => {
+        document.getElementById("temperatureFormContainer").innerHTML =
+          "<p style='color: red;'>Errore nel caricamento dei frigoriferi.</p>";
+      });
+    }
+
+    function validateTemperature(input, frigo, index) {
+      const value = parseFloat(input.value);
+      const indicator = document.getElementById(`status_${index}`);
+      indicator.className = 'status-indicator';
+      if (!isNaN(value)) {
+        if (value >= frigo.limiteMin && value <= frigo.limiteMax) {
+          indicator.classList.add('ok');
+        } else {
+          indicator.classList.add('alert');
+        }
+      }
+    }
+
+    function creaFormTemperature(data) {
+      frigoriferi = data;
+      const container = document.getElementById("temperatureFormContainer");
+      container.innerHTML = "";
+      if (!data || data.length === 0) {
+        container.innerHTML = "<p>Nessun frigorifero disponibile.</p>";
+        return;
+      }
+      data.forEach((frigo, index) => {
+        const idInput = `temp_${index}`;
+        const divBlocco = document.createElement("div");
+        divBlocco.className = "data-item";
+        divBlocco.style.marginBottom = "15px";
+        divBlocco.innerHTML = `
+          <div class="item-label"><strong>${frigo.nomeFrigo}</strong> (${frigo.tipoFrigo})</div>
+          <div class="item-input">
+            <input type="number" id="${idInput}" placeholder="°C"
+              min="${frigo.limiteMin}" max="${frigo.limiteMax}">
+            <span class="status-indicator" id="status_${index}"></span>
+          </div>
+          <small>Limiti: ${frigo.limiteMin}°C - ${frigo.limiteMax}°C</small>
+        `;
+        container.appendChild(divBlocco);
+
+        document.getElementById(idInput)
+          .addEventListener('input', () =>
+            validateTemperature(document.getElementById(idInput), frigo, index)
+          );
+      });
+
+      const saveBtn = document.getElementById('saveButton');
+      if (saveBtn) {
+        saveBtn.removeEventListener('click', salvaTemperature);
+        saveBtn.addEventListener('click', salvaTemperature);
+      }
+    }
+
+    function salvaTemperature() {
+      const userId = "utente1";
+      const timestamp = new Date().toISOString();
+      frigoriferi.forEach((frigo, index) => {
+        const input = document.getElementById(`temp_${index}`);
+        const value = parseFloat(input.value);
+        const status = document.getElementById(`status_${index}`)
+                           .classList.contains("ok") ? "OK" : "Allerta";
+        if (!isNaN(value)) {
+          const record = {
+            unitId: frigo.idFrigo || frigo.nomeFrigo,
+            temperature: value,
+            timestamp: timestamp,
+            status: status,
+            userId: userId
+          };
+          db.collection("temperature").add(record)
+            .then(() => console.log(`✅ Salvato ${frigo.nomeFrigo}`))
+            .catch(err => alert("❌ Errore: " + err.message));
+        }
+      });
+      alert("✅ Registrazioni inviate a Firebase.");
+    }
+
+    // 3. Registrazione di tutti i listener al caricamento pagina
+    document.addEventListener('DOMContentLoaded', function () {
+      // Listener form Impostazioni
+      document.getElementById('setup-frigoriferi-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nome = e.target.nomeFrigo.value.trim();
+        const tipo = e.target.tipoFrigo.value;
+        const min  = parseFloat(e.target.limiteMin.value);
+        const max  = parseFloat(e.target.limiteMax.value);
+        db.collection("frigoriferi").add({
+          nomeFrigo: nome,
+          tipoFrigo: tipo,
+          limiteMin: min,
+          limiteMax: max
+        })
+        .then(() => {
+          this.reset();
+          caricaElencoFrigoriferiImpostazioni();
+        })
+        .catch(err => alert("❌ Errore aggiunta frigo: " + err.message));
+      });
+
+      // Listener back-to-dashboard per Impostazioni
+      document.getElementById('back-to-dashboard-settings').addEventListener('click', () =>
+        mostraVista(dashboardView)
+      );
+
+      // Listener bottom-nav (Home / Impostazioni)
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelectorAll('.app-view').forEach(v => v.style.display = 'none');
+          document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+          this.classList.add('active');
+          const target = this.dataset.nav;
+          if (target === 'home') {
+            mostraVista(dashboardView);
+          } else if (target === 'settings') {
+            mostraVista(settingsView);
+            caricaElencoFrigoriferiImpostazioni();
+          }
+        });
+      });
+
+      // Listener tile Dashboard (Temperatura, Tracciamento, Pulizie)
+      document.querySelectorAll('.tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+          const section = tile.dataset.section;
+          if (section === 'temperatura') {
+            mostraVista(temperatureView);
+            caricaElencoFrigoriferiPerRegistrazione();
+          } else if (section === 'tracciamento') {
+            mostraVista(tracciamentoView);
+          } else if (section === 'pulizie-giornaliere') {
+            mostraVista(pulizieGiornaliereView);
+          } else if (section === 'pulizie-settimanali') {
+            mostraVista(pulizieSettimanaliView);
+          }
+        });
+      });
+
+      // Listener generici “back-to-dashboard” per altri moduli
+      document.getElementById('back-to-dashboard').addEventListener('click', () =>
+        mostraVista(dashboardView)
+      );
+      document.getElementById('back-to-dashboard-tracciamento').addEventListener('click', () =>
+        mostraVista(dashboardView)
+      );
+      document.getElementById('back-to-dashboard-pulizie-giornaliere').addEventListener('click', () =>
+        mostraVista(dashboardView)
+      );
+      document.getElementById('back-to-dashboard-pulizie-settimanali').addEventListener('click', () =>
+        mostraVista(dashboardView)
+      );
+// Listener tile Dashboard (Temperatura, Tracciamento, Pulizie)
+document.querySelectorAll('.tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    const section = tile.dataset.section;
+    if (section === 'temperatura') {
+      mostraVista(temperatureView);
+      caricaElencoFrigoriferiPerRegistrazione();
+    } else if (section === 'tracciamento') {
+      mostraVista(tracciamentoView);
+    } else if (section === 'pulizie-giornaliere') {
+      mostraVista(pulizieGiornaliereView);
+    } else if (section === 'pulizie-settimanali') {
+      mostraVista(pulizieSettimanaliView);
+    }
+  });
+});
+
+      // Salva dati tracciabilità (Firestore)
+      document.getElementById('tracciamento-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+          prodotto: form.querySelector('input[name="prodotto"]').value,
+          dataMateria: form.querySelector('input[name="dataMateria"]').value,
+          fattura: form.querySelector('input[name="fattura"]').value,
+          lotto: form.querySelector('input[name="lotto"]').value,
+          conformita: form.querySelector('input[name="conformita"]:checked')?.value || "",
+          firma: form.querySelector('input[name="firma"]').value
+        };
+        db.collection("tracciabilita").add(data)
+          .then(() => alert("✅ Scheda ingredienti salvata su Firebase!"))
+          .catch(err => alert("❌ Errore salvataggio: " + err.message));
+      });
+
+      // Salva dati pulizie giornaliere (Firestore) -- CORRETTO
+      document.getElementById('pulizie-giornaliere-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const inputs = e.target.querySelectorAll('input');
+        const data = {
+          mese: inputs[0].value,
+          anno: inputs[1].value,
+          data: inputs[2].value,
+          attrezzature: inputs[3].value,
+          pianiLavoro: inputs[4].value,
+          lavelli: inputs[5].value,
+          cestini: inputs[6].value,
+          pavimenti: inputs[7].value,
+          sanitari: inputs[8].value,
+          firma: inputs[9].value
+        };
+        db.collection("pulizie_giornaliere").add(data)
+          .then(() => alert("✅ Pulizia giornaliera salvata su Firebase!"))
+          .catch(err => alert("❌ Errore salvataggio: " + err.message));
+      });
+
+      // Salva dati pulizie settimanali (Firestore) -- CORRETTO
+      document.getElementById('pulizie-settimanali-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const inputs = e.target.querySelectorAll('input');
+        const data = {
+          mese: inputs[0].value,
+          anno: inputs[1].value,
+          data: inputs[2].value,
+          ora: inputs[3].value,
+          cellaFrigo: inputs[4].value,
+          rubinetterieSanitari: inputs[5].value,
+          interruttori: inputs[6].value,
+          mensole: inputs[7].value,
+          maniglie: inputs[8].value,
+          zanzariere: inputs[9].value,
+          firma: inputs[10].value
+        };
+        db.collection("pulizie_settimanali").add(data)
+          .then(() => alert("✅ Pulizia settimanale salvata su Firebase!"))
+          .catch(err => alert("❌ Errore salvataggio: " + err.message));
+      });
+    });
+</script>
+
+
+    <!-- Chatbase widget (puoi lasciarlo dove già lo hai) -->
+    <script>
+        window.embeddedChatbotConfig = {
+            chatbotId: "wDcCwpyQDmuBnEX4fweLa",
+            domain: "www.chatbase.co",
+            welcomeMessage: "Benvenuto nel tuo assistente HACCP. Cosa vuoi controllare oggi?",
+            color: "#00b0ff",
+            position: "custom",
+            customStyle: {
+                position: "absolute",
+                top: "300px",
+                left: "35px",
+                zIndex: 9999,
+                borderRadius: "12px",
+                backgroundColor: "#ffffff",
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+                width: "60px",
+                height: "60px"
+            },
+            icon: {
+                url: "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
+                size: "32px"
+            },
+            chatWindow: {
+                width: "320px",
+                height: "500px",
+                style: {
+                    borderRadius: "16px",
+                    boxShadow: "0 5px 25px rgba(0,0,0,0.3)"
+                }
+            }
+        };
+    </script>
+    <script>
+        setTimeout(() => {
+            const s = document.createElement('script');
+            s.src = "https://www.chatbase.co/embed.min.js";
+            s.setAttribute("chatbotId", "wDcCwpyQDmuBnEX4fweLa");
+            s.setAttribute("domain", "www.chatbase.co");
+            document.body.appendChild(s);
+        }, 1000);
+    </script>
+
+</body>
+</html>
