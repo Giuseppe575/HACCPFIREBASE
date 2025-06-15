@@ -23,17 +23,21 @@
             box-sizing: border-box;
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            background-color: #fff4e6;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            margin: 0 auto;
-            overflow: hidden;
+   .container {
+    /* width: 100%;   <-- questa va TOLTA! */
+    max-width: 420px;
+    margin: 0 auto;
+    background-color: #fff4e6;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+
+
         }
 
         .app-view {
@@ -287,59 +291,75 @@
 </head>
 
 <body>
+  <!-- 🔒 BLOCCO LOGIN/REGISTRAZIONE -->
+  <div id="auth-container" style="display: none;">
+    <h3>Login</h3>
+    <input id="auth-email" type="email" placeholder="Email">
+    <input id="auth-password" type="password" placeholder="Password">
+    <button onclick="login()">Accedi</button>
+    <button onclick="register()">Registrati</button>
+    <p id="auth-message" style="color: red;"></p>
+  </div>
+
+  <!-- 🔓 BLOCCO APP VISIBILE SOLO DOPO LOGIN -->
+  <div id="main-container" style="display: none;">
+    <button onclick="logout()" style="position: fixed; top: 10px; right: 10px; z-index:1000;">
+      Esci
+    </button>
+
     <div class="container">
-        <!-- Dashboard View -->
-        <section id="dashboard-view" class="app-view" style="display: block;">
-            <header class="header">
-  <div class="user-info">
-    <img
-      src="https://raw.githubusercontent.com/Giuseppe575/Immagine-/main/180396DC-C6CD-4BF0-8CBA-CC40BAE5BED8.jpeg"
-      alt="User Photo"
-      class="user-photo"
-      width="48"
-      height="48"
-    >
-    <div class="user-text">
-      <div class="greeting" style="color: #fff;">Benvenuto</div>
-      <div class="app-title" style="color: #fff;">Schede di Autocontrollo HACCP</div>
-    </div>
-  </div>
-  <div class="logo-container">
-    <img
-      src="https://raw.githubusercontent.com/Giuseppe575/Immagine-/main/6B7CA465-75C8-400F-A39D-0CC31CD5DF90.png"
-      alt="Gruppo ATIS Logo"
-      class="logo"
-      width="120"
-      onerror="this.onerror=null;this.src='assets/images/placeholder-logo.png'"
-    >
-  </div>
-</header>
+      <!-- Dashboard -->
+      <section id="dashboard-view" class="app-view" style="display: block;">
+        <header class="header">
+          <div class="user-info">
+            <img
+              src="https://raw.githubusercontent.com/Giuseppe575/Immagine-/main/180396DC-C6CD-4BF0-8CBA-CC40BAE5BED8.jpeg"
+              alt="User Photo"
+              class="user-photo"
+            >
+            <div class="user-text">
+              <div class="greeting">Benvenuto</div>
+              <div class="app-title" style="color:#fff; font-size:1.25rem; font-weight:500;">
+  Schede di Autocontrollo HACCP
+</div>
+
+          </div>
+          <div class="logo-container">
+            <img
+              src="https://raw.githubusercontent.com/Giuseppe575/Immagine-/main/6B7CA465-75C8-400F-A39D-0CC31CD5DF90.png"
+              alt="Gruppo ATIS Logo"
+              class="logo"
+            >
+          </div>
+        </header>
 
 
-            <section class="tiles-grid">
-                <div class="tile" data-section="tracciamento">
-                    <i class="fas fa-map-marker-alt" style="color: #7e57c2;"></i>
-                    <div class="status-badge">1</div>
-                    <div class="tile-text">Rintracciabilità</div>
-                </div>
-                <div class="tile" data-section="temperatura">
-                    <i class="fas fa-temperature-low" style="color: #00acc1;"></i>
-                    <div class="status-badge">2</div>
-                    <div class="tile-text">Temperatura</div>
-                </div>
-                <div class="tile" data-section="pulizie-giornaliere">
-                    <i class="fas fa-clipboard-check" style="color: #f57c00;"></i>
-                    <div class="status-badge">3</div>
-                    <div class="tile-text">Attività di pulizia giornaliera</div>
-                </div>
-                <div class="tile" data-section="pulizie-settimanali">
-                    <i class="fas fa-broom" style="color: #5c6bc0;"></i>
-                    <div class="status-badge">4</div>
-                    <div class="tile-text">Attività di pulizia settimanale</div>
-                </div>
-            </section>
+        <!-- Griglia delle tile -->
+        <section class="tiles-grid">
+          <div class="tile" data-section="tracciamento">
+            <i class="fas fa-map-marker-alt" style="color: #7e57c2;"></i>
+            <div class="status-badge">1</div>
+            <div class="tile-text">Rintracciabilità</div>
+          </div>
+          <div class="tile" data-section="temperatura">
+            <i class="fas fa-temperature-low" style="color: #00acc1;"></i>
+            <div class="status-badge">2</div>
+            <div class="tile-text">Temperatura</div>
+          </div>
+          <div class="tile" data-section="pulizie-giornaliere">
+            <i class="fas fa-clipboard-check" style="color: #f57c00;"></i>
+            <div class="status-badge">3</div>
+            <div class="tile-text">Pulizia giornaliera</div>
+          </div>
+          <div class="tile" data-section="pulizie-settimanali">
+            <i class="fas fa-broom" style="color: #5c6bc0;"></i>
+            <div class="status-badge">4</div>
+            <div class="tile-text">Pulizia settimanale</div>
+          </div>
         </section>
+      </section>
 
+                        
         <!-- Modulo Temperatura -->
         <section id="temperature-module-view" class="app-view" style="display: none;">
             <header class="module-header">
@@ -559,8 +579,10 @@
             <a href="#" class="nav-item" data-nav="settings">
                 <i class="fas fa-cog"></i>
                 <span>Impostazioni</span>
-            </a>
-        </footer>
+             </a>
+      </footer>
+    </div> <!-- /.container -->
+</div> <!-- /#main-container -->
    
     <!-- ===============================
          BLOCCO VERSIONE 2.3 - COPYRIGHT E TUTELA
@@ -577,32 +599,103 @@
 <script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.9.0/firebase-analytics-compat.js"></script>
- <script>
-    // === CONFIGURAZIONE FIREBASE ===
-    const firebaseConfig = {
-      apiKey: "AIzaSyDDZiXsdj12aM34i4HyVBFX2MrxaCB0qVQ",
-      authDomain: "haccpapp-5c0f3.firebaseapp.com",
-      projectId: "haccpapp-5c0f3",
-      storageBucket: "haccpapp-5c0f3.appspot.com",
-      messagingSenderId: "923817749354",
-      appId: "1:923817749354:web:8676ad31505787dfee1313",
-      measurementId: "G-SLES3SM452"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
-    if (typeof firebase.analytics === "function") { firebase.analytics(); }
+ 
 
-    // === SCRIPT DI LOGICA PRINCIPALE ===
+<script>
+  // === CONFIGURAZIONE FIREBASE ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDZiXsdj12aM34i4HyVBFX2MrxaCB0qVQ",
+    authDomain: "haccpapp-5c0f3.firebaseapp.com",
+    projectId: "haccpapp-5c0f3",
+    storageBucket: "haccpapp-5c0f3.appspot.com",
+    messagingSenderId: "923817749354",
+    appId: "1:923817749354:web:8676ad31505787dfee1313",
+    measurementId: "G-SLES3SM452"
+  };
 
-    // 1. Variabili globali
-    const dashboardView            = document.getElementById('dashboard-view');
-    const temperatureView          = document.getElementById('temperature-module-view');
-    const tracciamentoView         = document.getElementById('tracciamento-module-view');
-    const pulizieGiornaliereView   = document.getElementById('pulizie-giornaliere-module-view');
-    const pulizieSettimanaliView   = document.getElementById('pulizie-settimanali-module-view');
-    const settingsView             = document.getElementById('settings-module-view');
-    let frigoriferi                = []; // sarà valorizzato da creaFormTemperature
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  if (typeof firebase.analytics === "function") {
+    firebase.analytics();
+  }
+
+  let currentUserId = null;
+
+  firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    currentUserId = user.uid;
+    document.getElementById("auth-container").style.display = "none";
+    document.getElementById("main-container").style.display = "block";
+
+    // ✅ mostra la dashboard all'avvio
+    if (typeof mostraVista === "function") {
+      mostraVista(dashboardView);
+    }
+  } else {
+    currentUserId = null;
+    document.getElementById("auth-container").style.display = "block";
+    document.getElementById("main-container").style.display = "none";
+  }
+});
+
+
+  function login() {
+  const email = document.getElementById("auth-email").value;
+  const password = document.getElementById("auth-password").value;
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .catch(err => document.getElementById("auth-message").innerText = err.message);
+}
+
+function register() {
+  const email = document.getElementById("auth-email").value;
+  const password = document.getElementById("auth-password").value;
+
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(cred => {
+      const uid = cred.user.uid;
+
+      // Dati dell’azienda richiesti via prompt (puoi sostituirli con un form)
+      const ragioneSociale = prompt("Ragione sociale dell'azienda:");
+      const telefono = prompt("Telefono:");
+      const partitaIVA = prompt("Partita IVA:");
+      const indirizzo = prompt("Indirizzo:");
+      const tipoAzienda = prompt("Tipo azienda (es. bar, panificio...):");
+
+      // Salvataggio su Firestore nella raccolta 'utenti'
+      return db.collection("utenti").doc(uid).set({
+        uid: uid,
+        email: email,
+        ragioneSociale: ragioneSociale,
+        telefono: telefono,
+        partitaIVA: partitaIVA,
+        indirizzo: indirizzo,
+        tipoAzienda: tipoAzienda
+      });
+    })
+    .catch(err => {
+      document.getElementById("auth-message").innerText = err.message;
+    });
+}
+ function logout() {
+    firebase.auth().signOut().then(() => {
+      console.log("👋 Logout effettuato");
+    });
+  }
+</script>
+
+
+<script>
+  // 1. Variabili globali
+  const dashboardView            = document.getElementById('dashboard-view');
+  const temperatureView          = document.getElementById('temperature-module-view');
+  const tracciamentoView         = document.getElementById('tracciamento-module-view');
+  const pulizieGiornaliereView   = document.getElementById('pulizie-giornaliere-module-view');
+  const pulizieSettimanaliView   = document.getElementById('pulizie-settimanali-module-view');
+  const settingsView             = document.getElementById('settings-module-view');
+  let frigoriferi                = []; // sarà valorizzato da creaFormTemperature
+
 
     // 2. Funzioni utility
     function mostraVista(vista) {
@@ -610,60 +703,84 @@
       vista.style.display = 'block';
     }
 
-    function caricaElencoFrigoriferiImpostazioni() {
-      db.collection("frigoriferi").get().then(querySnapshot => {
-        const lista = [];
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
-          data.idFrigo = doc.id;
-          lista.push(data);
-        });
-        const elenco = document.getElementById('elenco-frigoriferi');
-        if (!lista.length) {
-          elenco.innerHTML = "<em>Nessun frigorifero registrato.</em>";
-          return;
-        }
-        elenco.innerHTML = `
-          <table style="width:100%; font-size:0.95em; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th style="text-align:left; padding: 5px;">Nome</th>
-                <th style="text-align:left; padding: 5px;">Tipo</th>
-                <th style="text-align:left; padding: 5px;">Min (°C)</th>
-                <th style="text-align:left; padding: 5px;">Max (°C)</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${lista.map(f => `
-                <tr>
-                  <td style="padding: 5px;">${f.nomeFrigo}</td>
-                  <td style="padding: 5px;">${f.tipoFrigo}</td>
-                  <td style="padding: 5px;">${f.limiteMin}</td>
-                  <td style="padding: 5px;">${f.limiteMax}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>`;
-      }).catch(err => {
-        console.error("Errore caricamento frigoriferi:", err);
-        document.getElementById('elenco-frigoriferi').innerHTML = "<em>Errore caricamento dati.</em>";
-      });
-    }
+  function caricaElencoFrigoriferiImpostazioni() {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    console.warn("Utente non loggato.");
+    return;
+  }
 
-    function caricaElencoFrigoriferiPerRegistrazione() {
-      db.collection("frigoriferi").get().then(querySnapshot => {
-        const lista = [];
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
-          data.idFrigo = doc.id;
-          lista.push(data);
-        });
-        creaFormTemperature(lista);
-      }).catch(err => {
-        document.getElementById("temperatureFormContainer").innerHTML =
-          "<p style='color: red;'>Errore nel caricamento dei frigoriferi.</p>";
+  db.collection("frigoriferi")
+    .where("userId", "==", user.uid)
+    .get()
+    .then(querySnapshot => {
+      const lista = [];
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        data.idFrigo = doc.id;
+        lista.push(data);
       });
-    }
+
+      const elenco = document.getElementById('elenco-frigoriferi');
+      if (!lista.length) {
+        elenco.innerHTML = "<em>Nessun frigorifero registrato.</em>";
+        return;
+      }
+
+      elenco.innerHTML = `
+        <table style="width:100%; font-size:0.95em; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th style="text-align:left; padding: 5px;">Nome</th>
+              <th style="text-align:left; padding: 5px;">Tipo</th>
+              <th style="text-align:left; padding: 5px;">Min (°C)</th>
+              <th style="text-align:left; padding: 5px;">Max (°C)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lista.map(f => `
+              <tr>
+                <td style="padding: 5px;">${f.nomeFrigo}</td>
+                <td style="padding: 5px;">${f.tipoFrigo}</td>
+                <td style="padding: 5px;">${f.limiteMin}</td>
+                <td style="padding: 5px;">${f.limiteMax}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    })
+    .catch(err => {
+      console.error("Errore caricamento frigoriferi:", err);
+      document.getElementById('elenco-frigoriferi').innerHTML = "<em>Errore caricamento dati.</em>";
+    });
+}
+
+ 
+    function caricaElencoFrigoriferiPerRegistrazione() {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    document.getElementById("temperatureFormContainer").innerHTML =
+      "<p style='color: red;'>Utente non autenticato.</p>";
+    return;
+  }
+  db.collection("frigoriferi")
+    .where("userId", "==", user.uid) // <-- filtro come da regola
+    .get()
+    .then(querySnapshot => {
+      const lista = [];
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        data.idFrigo = doc.id;
+        lista.push(data);
+      });
+      creaFormTemperature(lista);
+    }).catch(err => {
+      console.log("Errore Firestore:", err);
+      document.getElementById("temperatureFormContainer").innerHTML =
+        "<p style='color: red;'>Errore nel caricamento dei frigoriferi.</p>";
+    });
+}
+
 
     function validateTemperature(input, frigo, index) {
       const value = parseFloat(input.value);
@@ -715,58 +832,80 @@
       }
     }
 
-    function salvaTemperature() {
-      const userId = "utente1";
-      const timestamp = new Date().toISOString();
-      frigoriferi.forEach((frigo, index) => {
-        const input = document.getElementById(`temp_${index}`);
-        const value = parseFloat(input.value);
-        const status = document.getElementById(`status_${index}`)
-                           .classList.contains("ok") ? "OK" : "Allerta";
-        if (!isNaN(value)) {
-          const record = {
-            unitId: frigo.idFrigo || frigo.nomeFrigo,
-            temperature: value,
-            timestamp: timestamp,
-            status: status,
-            userId: userId
-          };
-          db.collection("temperature").add(record)
-            .then(() => console.log(`✅ Salvato ${frigo.nomeFrigo}`))
-            .catch(err => alert("❌ Errore: " + err.message));
-        }
-      });
-      alert("✅ Registrazioni inviate a Firebase.");
+  function salvaTemperature() {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("❌ Utente non autenticato!");
+    return;
+  }
+
+  const timestamp = new Date().toISOString();
+  const userId = user.uid;
+
+  frigoriferi.forEach((frigo, index) => {
+    const input = document.getElementById(`temp_${index}`);
+    const value = parseFloat(input.value);
+    const status = document.getElementById(`status_${index}`).classList.contains("ok") ? "OK" : "Allerta";
+
+    if (!isNaN(value)) {
+      const record = {
+        userId: userId,
+        unitId: frigo.idFrigo || frigo.nomeFrigo,
+        temperature: value,
+        timestamp: timestamp,
+        status: status
+      };
+
+      db.collection("temperature").add(record)
+        .then(() => console.log(`✅ Temperatura salvata per ${frigo.nomeFrigo}`))
+        .catch(err => alert("❌ Errore salvataggio temperatura: " + err.message));
     }
+  });
+
+  alert("✅ Tutte le temperature sono state registrate.");
+}
+
+
 
     // 3. Registrazione di tutti i listener al caricamento pagina
     document.addEventListener('DOMContentLoaded', function () {
       // Listener form Impostazioni
-      document.getElementById('setup-frigoriferi-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const nome = e.target.nomeFrigo.value.trim();
-        const tipo = e.target.tipoFrigo.value;
-        const min  = parseFloat(e.target.limiteMin.value);
-        const max  = parseFloat(e.target.limiteMax.value);
-        db.collection("frigoriferi").add({
-          nomeFrigo: nome,
-          tipoFrigo: tipo,
-          limiteMin: min,
-          limiteMax: max
-        })
-        .then(() => {
-          this.reset();
-          caricaElencoFrigoriferiImpostazioni();
-        })
-        .catch(err => alert("❌ Errore aggiunta frigo: " + err.message));
-      });
+      document.getElementById('setup-frigoriferi-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("❌ Errore: nessun utente autenticato.");
+    return;
+  }
+
+  const nome = e.target.nomeFrigo.value.trim();
+  const tipo = e.target.tipoFrigo.value;
+  const min = parseFloat(e.target.limiteMin.value);
+  const max = parseFloat(e.target.limiteMax.value);
+
+  db.collection("frigoriferi").add({
+    nomeFrigo: nome,
+    tipoFrigo: tipo,
+    limiteMin: min,
+    limiteMax: max,
+    userId: user.uid   // 🔐 salviamo anche l’ID dell’utente
+  })
+  .then(() => {
+    this.reset();
+    caricaElencoFrigoriferiImpostazioni(); // aggiorna subito la lista
+    alert("✅ Frigorifero salvato con successo!");
+  })
+  .catch(err => alert("❌ Errore aggiunta frigo: " + err.message));
+});
+
 
       // Listener back-to-dashboard per Impostazioni
       document.getElementById('back-to-dashboard-settings').addEventListener('click', () =>
         mostraVista(dashboardView)
       );
 
-      // Listener bottom-nav (Home / Impostazioni)
+           // Listener bottom-nav (Home / Impostazioni)
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
           e.preventDefault();
@@ -800,7 +939,7 @@
         });
       });
 
-      // Listener generici “back-to-dashboard” per altri moduli
+      // Listener generici "back-to-dashboard" per altri moduli
       document.getElementById('back-to-dashboard').addEventListener('click', () =>
         mostraVista(dashboardView)
       );
@@ -813,84 +952,100 @@
       document.getElementById('back-to-dashboard-pulizie-settimanali').addEventListener('click', () =>
         mostraVista(dashboardView)
       );
-// Listener tile Dashboard (Temperatura, Tracciamento, Pulizie)
-document.querySelectorAll('.tile').forEach(tile => {
-  tile.addEventListener('click', () => {
-    const section = tile.dataset.section;
-    if (section === 'temperatura') {
-      mostraVista(temperatureView);
-      caricaElencoFrigoriferiPerRegistrazione();
-    } else if (section === 'tracciamento') {
-      mostraVista(tracciamentoView);
-    } else if (section === 'pulizie-giornaliere') {
-      mostraVista(pulizieGiornaliereView);
-    } else if (section === 'pulizie-settimanali') {
-      mostraVista(pulizieSettimanaliView);
-    }
-  });
-});
+    });  <!-- Chiusura del listener DOMContentLoaded -->
+
 
       // Salva dati tracciabilità (Firestore)
-      document.getElementById('tracciamento-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const form = e.target;
-        const data = {
-          prodotto: form.querySelector('input[name="prodotto"]').value,
-          dataMateria: form.querySelector('input[name="dataMateria"]').value,
-          fattura: form.querySelector('input[name="fattura"]').value,
-          lotto: form.querySelector('input[name="lotto"]').value,
-          conformita: form.querySelector('input[name="conformita"]:checked')?.value || "",
-          firma: form.querySelector('input[name="firma"]').value
-        };
-        db.collection("tracciabilita").add(data)
-          .then(() => alert("✅ Scheda ingredienti salvata su Firebase!"))
-          .catch(err => alert("❌ Errore salvataggio: " + err.message));
-      });
+      document.getElementById('tracciamento-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("❌ Utente non autenticato!");
+    return;
+  }
+
+  const form = e.target;
+  const data = {
+    userId: user.uid,
+    prodotto: form.querySelector('input[name="prodotto"]').value,
+    dataMateria: form.querySelector('input[name="dataMateria"]').value,
+    fattura: form.querySelector('input[name="fattura"]').value,
+    lotto: form.querySelector('input[name="lotto"]').value,
+    conformita: form.querySelector('input[name="conformita"]:checked')?.value || "",
+    firma: form.querySelector('input[name="firma"]').value
+  };
+
+  db.collection("tracciabilita").add(data)
+    .then(() => alert("✅ Scheda tracciabilità salvata!"))
+    .catch(err => alert("❌ Errore salvataggio tracciabilità: " + err.message));
+});
+
 
       // Salva dati pulizie giornaliere (Firestore) -- CORRETTO
-      document.getElementById('pulizie-giornaliere-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const inputs = e.target.querySelectorAll('input');
-        const data = {
-          mese: inputs[0].value,
-          anno: inputs[1].value,
-          data: inputs[2].value,
-          attrezzature: inputs[3].value,
-          pianiLavoro: inputs[4].value,
-          lavelli: inputs[5].value,
-          cestini: inputs[6].value,
-          pavimenti: inputs[7].value,
-          sanitari: inputs[8].value,
-          firma: inputs[9].value
-        };
-        db.collection("pulizie_giornaliere").add(data)
-          .then(() => alert("✅ Pulizia giornaliera salvata su Firebase!"))
-          .catch(err => alert("❌ Errore salvataggio: " + err.message));
-      });
+      document.getElementById('pulizie-giornaliere-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    alert("❌ Utente non autenticato!");
+    return;
+  }
+
+  const inputs = e.target.querySelectorAll('input');
+  const data = {
+    userId: user.uid,
+    mese: inputs[0].value,
+    anno: inputs[1].value,
+    data: inputs[2].value,
+    attrezzature: inputs[3].value,
+    pianiLavoro: inputs[4].value,
+    lavelli: inputs[5].value,
+    cestini: inputs[6].value,
+    pavimenti: inputs[7].value,
+    sanitari: inputs[8].value,
+    firma: inputs[9].value
+  };
+
+  db.collection("pulizie_giornaliere").add(data)
+    .then(() => alert("✅ Pulizia giornaliera salvata!"))
+    .catch(err => alert("❌ Errore salvataggio: " + err.message));
+});
+
 
       // Salva dati pulizie settimanali (Firestore) -- CORRETTO
-      document.getElementById('pulizie-settimanali-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const inputs = e.target.querySelectorAll('input');
-        const data = {
-          mese: inputs[0].value,
-          anno: inputs[1].value,
-          data: inputs[2].value,
-          ora: inputs[3].value,
-          cellaFrigo: inputs[4].value,
-          rubinetterieSanitari: inputs[5].value,
-          interruttori: inputs[6].value,
-          mensole: inputs[7].value,
-          maniglie: inputs[8].value,
-          zanzariere: inputs[9].value,
-          firma: inputs[10].value
-        };
-        db.collection("pulizie_settimanali").add(data)
-          .then(() => alert("✅ Pulizia settimanale salvata su Firebase!"))
-          .catch(err => alert("❌ Errore salvataggio: " + err.message));
-      });
-    });
+     document.getElementById('pulizie-settimanali-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      alert("❌ Utente non autenticato!");
+      return;
+    }
+
+    const inputs = e.target.querySelectorAll('input');
+    const data = {
+      userId: user.uid,
+      mese: inputs[0].value,
+      anno: inputs[1].value,
+      data: inputs[2].value,
+      ora: inputs[3].value,
+      cellaFrigo: inputs[4].value,
+      rubinetterieSanitari: inputs[5].value,
+      interruttori: inputs[6].value,
+      mensole: inputs[7].value,
+      maniglie: inputs[8].value,
+      zanzariere: inputs[9].value,
+      firma: inputs[10].value
+    };
+
+    db.collection("pulizie_settimanali").add(data)
+      .then(() => alert("✅ Pulizia settimanale salvata!"))
+      .catch(err => alert("❌ Errore salvataggio: " + err.message));
+  }); // <== chiusura corretta
 </script>
+
+
 
 
     <!-- Chatbase widget (puoi lasciarlo dove già lo hai) -->
